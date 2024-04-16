@@ -4,7 +4,13 @@ devel
 
 install
 
+logs
+
 .catkin_workspace
+
+.catkin_tools
+
+.vscode
 
 *~
 
@@ -25,3 +31,5 @@ src/vehicle_simulator/log/*
 !download_environments.sh
 
 !readme.txt
+
+compile_commands.json

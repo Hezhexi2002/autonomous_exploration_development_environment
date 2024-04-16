@@ -1,31 +1,57 @@
 <launch>
 
   <node pkg="terrain_analysis" type="terrainAnalysis" name="terrainAnalysis" output="screen" required="true">
+    <!-- 激光雷达扫描的体素大小 -->
     <param name="scanVoxelSize" type="double" value="0.05" />
+    <!-- 地形信息的衰减时间 -->
     <param name="decayTime" type="double" value="2.0" />
-    <param name="noDecayDis" type="double" value="4.0" />
-    <param name="clearingDis" type="double" value="8.0" />
-    <param name="useSorting" type="bool" value="false" />
+    <!-- 不进行衰减的距离 -->
+    <param name="noDecayDis" type="double" value="2.0" />
+    <!-- 清理障碍物的距离 -->
+    <param name="clearingDis" type="double" value="4.0" />
+    <!-- 是否使用排序 -->
+    <param name="useSorting" type="bool" value="true" />
+    <!-- Z轴的分位数 -->
     <param name="quantileZ" type="double" value="0.25" />
-    <param name="considerDrop" type="bool" value="true" />
+    <!-- 是否考虑下降 -->
+    <param name="considerDrop" type="bool" value="false" />
+    <!-- 是否限制地面升高 -->
     <param name="limitGroundLift" type="bool" value="false" />
+    <!-- 最大地面升高 -->
     <param name="maxGroundLift" type="double" value="0.15" />
+    <!-- 是否清理动态障碍物 -->
     <param name="clearDyObs" type="bool" value="true" />
+    <!-- 最小动态障碍物距离 -->
     <param name="minDyObsDis" type="double" value="0.3" />
+    <!-- 最小动态障碍物角度 -->
     <param name="minDyObsAngle" type="double" value="0" />
+    <!-- 最小动态障碍物相对Z值 -->
     <param name="minDyObsRelZ" type="double" value="-0.5" />
+    <!-- 绝对动态障碍物相对Z阈值 -->
     <param name="absDyObsRelZThre" type="double" value="0.2" />
+    <!-- 最小动态障碍物垂直视场 -->
     <param name="minDyObsVFOV" type="double" value="-16.0" />
+    <!-- 最大动态障碍物垂直视场 -->
     <param name="maxDyObsVFOV" type="double" value="16.0" />
+    <!-- 最小动态障碍物点数 -->
     <param name="minDyObsPointNum" type="int" value="1" />
+    <!-- 是否没有数据障碍物 -->
     <param name="noDataObstacle" type="bool" value="false" />
+    <!-- 没有数据块跳过数 -->
     <param name="noDataBlockSkipNum" type="int" value="0" />
+    <!-- 最小块点数 -->
     <param name="minBlockPointNum" type="int" value="10" />
-    <param name="vehicleHeight" type="double" value="1.5" />
+    <!-- 车辆高度 -->
+    <param name="vehicleHeight" type="double" value="0.15" />
+    <!-- 体素点更新阈值 -->
     <param name="voxelPointUpdateThre" type="int" value="100" />
+    <!-- 体素时间更新阈值 -->
     <param name="voxelTimeUpdateThre" type="double" value="2.0" />
-    <param name="minRelZ" type="double" value="-2.5" />
-    <param name="maxRelZ" type="double" value="1.0" />
+    <!-- 最小相对Z值 -->
+    <param name="minRelZ" type="double" value="-0.15" />
+    <!-- 最大相对Z值 -->
+    <param name="maxRelZ" type="double" value="0.15" />
+    <!-- 距离比率Z -->
     <param name="disRatioZ" type="double" value="0.2" />
   </node>
 

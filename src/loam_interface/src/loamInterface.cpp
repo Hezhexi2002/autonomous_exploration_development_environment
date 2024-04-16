@@ -85,25 +85,41 @@ void odometryHandler(const nav_msgs::Odometry::ConstPtr& odom)
 
 void laserCloudHandler(const sensor_msgs::PointCloud2ConstPtr& laserCloudIn)
 {
-  laserCloud->clear();
-  pcl::fromROSMsg(*laserCloudIn, *laserCloud);
+    laserCloud->clear();
+    pcl::fromROSMsg(*laserCloudIn, *laserCloud);
 
-  if (flipRegisteredScan) {
-    int laserCloudSize = laserCloud->points.size();
-    for (int i = 0; i < laserCloudSize; i++) {
-      float temp = laserCloud->points[i].x;
-      laserCloud->points[i].x = laserCloud->points[i].z;
-      laserCloud->points[i].z = laserCloud->points[i].y;
-      laserCloud->points[i].y = temp;
+    if (flipRegisteredScan) {
+        int laserCloudSize = laserCloud->points.size();
+        for (int i = 0; i < laserCloudSize; i++) {
+            float temp = laserCloud->points[i].x;
+            laserCloud->points[i].x = laserCloud->points[i].z;
+            laserCloud->points[i].z = laserCloud->points[i].y;
+            laserCloud->points[i].y = temp;
+        }
     }
-  }
 
-  // publish registered scan messages
-  sensor_msgs::PointCloud2 laserCloud2;
-  pcl::toROSMsg(*laserCloud, laserCloud2);
-  laserCloud2.header.stamp = laserCloudIn->header.stamp;
-  laserCloud2.header.frame_id = "map";
-  pubLaserCloudPointer->publish(laserCloud2);
+    // // 创建一个绕Y轴旋转37°的旋转矩阵
+    // double angle = 37.0 * M_PI / 180.0;  // 将角度转换为弧度
+    // Eigen::Matrix3d rotation_matrix;
+    // rotation_matrix << cos(angle), 0, sin(angle),
+    //                    0, 1, 0,
+    //                    -sin(angle), 0, cos(angle);
+
+    // // 应用旋转
+    // for (auto& point : laserCloud->points) {
+    //     Eigen::Vector3d point_vec(point.x, point.y, point.z);
+    //     point_vec = rotation_matrix * point_vec;
+    //     point.x = point_vec(0);
+    //     point.y = point_vec(1);
+    //     point.z = point_vec(2);
+    // }
+
+    // publish registered scan messages
+    sensor_msgs::PointCloud2 laserCloud2;
+    pcl::toROSMsg(*laserCloud, laserCloud2);
+    laserCloud2.header.stamp = laserCloudIn->header.stamp;
+    laserCloud2.header.frame_id = "map";
+    pubLaserCloudPointer->publish(laserCloud2);
 }
 
 int main(int argc, char** argv)

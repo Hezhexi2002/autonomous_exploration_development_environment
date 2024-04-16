@@ -24,5 +24,8 @@
   <include file="$(find loam_interface)/launch/loam_interface.launch" />
 
   <node launch-prefix="nice" pkg="rviz" type="rviz" name="rvizGA" args="-d $(find vehicle_simulator)/rviz/vehicle_simulator.rviz" respawn="true"/>
+ 
+  <node pkg="twiststamped_to_twist" type="twiststamped_to_twist_node" name="twiststamped_to_twist" respawn="true"/>
+ 
 
 </launch>
