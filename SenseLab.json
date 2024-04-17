@@ -1,0 +1,88 @@
+{
+  "configById": {
+    "3D!47f57zj": {
+      "cameraState": {
+        "perspective": true,
+        "distance": 65.0709390293747,
+        "phi": 0.000057304686744168496,
+        "thetaOffset": 80.70247948592315,
+        "targetOffset": [
+          20.954684634489887,
+          -10.335511285638685,
+          1.1990649541465342e-16
+        ],
+        "target": [
+          0,
+          0,
+          0
+        ],
+        "targetOrientation": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "fovy": 45,
+        "near": 0.5,
+        "far": 5000
+      },
+      "followMode": "follow-position",
+      "scene": {},
+      "transforms": {},
+      "topics": {
+        "/trajectory": {
+          "visible": true,
+          "colorField": "intensity",
+          "colorMode": "colormap",
+          "colorMap": "turbo",
+          "pointSize": 2
+        },
+        "/added_obstacles": {
+          "visible": true,
+          "pointSize": 5
+        },
+        "/navigation_boundary": {
+          "visible": true,
+          "lineWidth": 0.1
+        },
+        "/path": {
+          "visible": true,
+          "lineWidth": 0.5
+        },
+        "/free_paths": {
+          "visible": true,
+          "colorField": "intensity",
+          "colorMode": "colormap",
+          "colorMap": "turbo",
+          "pointSize": 2
+        },
+        "/registered_scan": {
+          "visible": true,
+          "colorField": "intensity",
+          "colorMode": "flat",
+          "colorMap": "turbo",
+          "decayTime": 10,
+          "pointSize": 2
+        }
+      },
+      "layers": {},
+      "publish": {
+        "type": "point",
+        "poseTopic": "/move_base_simple/goal",
+        "pointTopic": "/way_point",
+        "poseEstimateTopic": "/initialpose",
+        "poseEstimateXDeviation": 0.5,
+        "poseEstimateYDeviation": 0.5,
+        "poseEstimateThetaDeviation": 0.26179939
+      },
+      "imageMode": {},
+      "followTf": "map"
+    }
+  },
+  "globalVariables": {},
+  "userNodes": {},
+  "playbackConfig": {
+    "speed": 1
+  },
+  "layout": "3D!47f57zj"
+}
