@@ -39,11 +39,13 @@
         },
         "/added_obstacles": {
           "visible": true,
-          "pointSize": 5
+          "pointSize": 5,
+          "flatColor": "#ff0000ff"
         },
         "/navigation_boundary": {
           "visible": true,
-          "lineWidth": 0.1
+          "lineWidth": 0.1,
+          "color": "#00ff00ff"
         },
         "/path": {
           "visible": true,
