@@ -8,7 +8,7 @@
   <arg name="autonomyMode" default="false"/>
   <arg name="autonomySpeed" default="2.0"/>
   <arg name="joyToSpeedDelay" default="2.0"/>
-  <arg name="goalX" adefault="0"/>
+  <arg name="goalX" default="0"/>
   <arg name="goalY" default="0"/>
 
   <node pkg="local_planner" type="localPlanner" name="localPlanner" output="screen" required="true">
