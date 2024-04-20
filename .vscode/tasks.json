@@ -1,0 +1,30 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "catkin",
+			"args": [
+				"build",
+				"--workspace",
+				"/home/sl/Workspace/autonomous_exploration_development_environment",
+				"--cmake-args",
+				"-DCMAKE_EXPORT_COMPILE_COMMANDS=1"
+			],
+			"problemMatcher": [
+				"$catkin-gcc"
+			],
+			"label": "catkin: build"
+		},
+		{
+			"type": "shell",
+			"command": "sudo sh ./generate_json.sh && sudo mv compile_commands.json ./build",
+			"dependsOn": "catkin: build",
+			"dependsOrder": "sequence",
+			"label": "generate compile_commands.json",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		}
+	]
+}

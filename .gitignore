@@ -10,7 +10,7 @@ logs
 
 .catkin_tools
 
-.vscode
+.cache
 
 *~
 
@@ -31,5 +31,3 @@ src/vehicle_simulator/log/*
 !download_environments.sh
 
 !readme.txt
-
-compile_commands.json
