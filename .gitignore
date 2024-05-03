@@ -12,6 +12,8 @@ log
 
 .DS_Store
 
+.cache
+
 src/vehicle_simulator/mesh/*
 
 !src/vehicle_simulator/mesh/matterport
@@ -23,6 +25,8 @@ src/vehicle_simulator/mesh/matterport/segmentations/*
 src/vehicle_simulator/mesh/matterport/preview/*
 
 src/vehicle_simulator/log/*
+
+src/twist_stamper
 
 !download_environments.sh
 

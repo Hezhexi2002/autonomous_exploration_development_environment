@@ -38,6 +38,7 @@ using namespace std;
 
 const double PI = 3.1415926;
 
+string robot_id;
 double sensorOffsetX = 0;
 double sensorOffsetY = 0;
 int pubSkipNum = 1;
@@ -189,6 +190,7 @@ int main(int argc, char** argv)
   rclcpp::init(argc, argv);
   nh = rclcpp::Node::make_shared("pathFollower");
 
+  nh->declare_parameter<std::string>("robot_id", robot_id);
   nh->declare_parameter<double>("sensorOffsetX", sensorOffsetX);
   nh->declare_parameter<double>("sensorOffsetY", sensorOffsetY);
   nh->declare_parameter<int>("pubSkipNum", pubSkipNum);
@@ -218,6 +220,7 @@ int main(int argc, char** argv)
   nh->declare_parameter<double>("autonomySpeed", autonomySpeed);
   nh->declare_parameter<double>("joyToSpeedDelay", joyToSpeedDelay);
 
+  nh->get_parameter("robot_id", robot_id);
   nh->get_parameter("sensorOffsetX", sensorOffsetX);
   nh->get_parameter("sensorOffsetY", sensorOffsetY);
   nh->get_parameter("pubSkipNum", pubSkipNum);
@@ -247,7 +250,7 @@ int main(int argc, char** argv)
   nh->get_parameter("autonomySpeed", autonomySpeed);
   nh->get_parameter("joyToSpeedDelay", joyToSpeedDelay);
 
-  auto subOdom = nh->create_subscription<nav_msgs::msg::Odometry>("/state_estimation", 5, odomHandler);
+  auto subOdom = nh->create_subscription<nav_msgs::msg::Odometry>(robot_id + "/state_estimation", 5, odomHandler);
 
   auto subPath = nh->create_subscription<nav_msgs::msg::Path>("/path", 5, pathHandler);
 
@@ -257,10 +260,10 @@ int main(int argc, char** argv)
 
   auto subStop = nh->create_subscription<std_msgs::msg::Int8>("/stop", 5, stopHandler);
 
-  auto pubSpeed = nh->create_publisher<geometry_msgs::msg::TwistStamped>("/cmd_vel", 5);
+  auto pubSpeed = nh->create_publisher<geometry_msgs::msg::TwistStamped>("/cmd_vel_stamped", 5);
 
-  geometry_msgs::msg::TwistStamped cmd_vel;
-  cmd_vel.header.frame_id = "vehicle";
+  geometry_msgs::msg::TwistStamped cmd_vel_stamped;
+  cmd_vel_stamped.header.frame_id = "vehicle";
 
   if (autonomyMode) {
     joySpeed = autonomySpeed / maxSpeed;
@@ -366,11 +369,11 @@ int main(int argc, char** argv)
 
       pubSkipCount--;
       if (pubSkipCount < 0) {
-        cmd_vel.header.stamp = rclcpp::Time(static_cast<uint64_t>(odomTime * 1e9));
-        if (fabs(vehicleSpeed) <= maxAccel / 100.0) cmd_vel.twist.linear.x = 0;
-        else cmd_vel.twist.linear.x = vehicleSpeed;
-        cmd_vel.twist.angular.z = vehicleYawRate;
-        pubSpeed->publish(cmd_vel);
+        cmd_vel_stamped.header.stamp = rclcpp::Time(static_cast<uint64_t>(odomTime * 1e9));
+        if (fabs(vehicleSpeed) <= maxAccel / 100.0) cmd_vel_stamped.twist.linear.x = 0;
+        else cmd_vel_stamped.twist.linear.x = vehicleSpeed;
+        cmd_vel_stamped.twist.angular.z = vehicleYawRate;
+        pubSpeed->publish(cmd_vel_stamped);
 
         pubSkipCount = pubSkipNum;
       }

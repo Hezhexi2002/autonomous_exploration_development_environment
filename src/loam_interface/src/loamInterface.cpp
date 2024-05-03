@@ -25,6 +25,7 @@
 
 using namespace std;
 
+string robot_id;
 pcl::PointCloud<pcl::PointXYZI>::Ptr laserCloud(new pcl::PointCloud<pcl::PointXYZI>());
 nav_msgs::msg::Odometry odomData;
 tf2::Stamped<tf2::Transform> odomTrans;
@@ -37,6 +38,7 @@ public:
   : Node("loamInterface")
   {
     // Declare Parameters
+    this->declare_parameter<std::string>("robot_id", robot_id);
     this->declare_parameter<std::string>("stateEstimationTopic", stateEstimationTopic);
     this->declare_parameter<std::string>("registeredScanTopic", registeredScanTopic);
     this->declare_parameter<bool>("flipStateEstimation", flipStateEstimation);
@@ -45,6 +47,7 @@ public:
     this->declare_parameter<bool>("reverseTF", reverseTF);
 
     // Initialize Parameters
+    this->get_parameter("robot_id", robot_id);
     this->get_parameter("stateEstimationTopic", stateEstimationTopic);
     this->get_parameter("registeredScanTopic", registeredScanTopic);
     this->get_parameter("flipStateEstimation", flipStateEstimation);
@@ -53,8 +56,8 @@ public:
     this->get_parameter("reverseTF", reverseTF);
 
     tfBroadcasterPointer = std::make_unique<tf2_ros::TransformBroadcaster>(*this);
-    pubLaserCloud = this->create_publisher<sensor_msgs::msg::PointCloud2>("/registered_scan", 5);
-    pubOdometry = this->create_publisher<nav_msgs::msg::Odometry>("/state_estimation", 5);
+    pubLaserCloud = this->create_publisher<sensor_msgs::msg::PointCloud2>(robot_id + "/registered_scan", 5);
+    pubOdometry = this->create_publisher<nav_msgs::msg::Odometry>(robot_id + "/state_estimation", 5);
 
     subLaserCloud = this->create_subscription<sensor_msgs::msg::PointCloud2>(
       registeredScanTopic, 5, std::bind(&LoamInterface::laserCloudHandler, this, std::placeholders::_1));
@@ -70,7 +73,7 @@ private:
     laserCloud->clear();
     pcl::fromROSMsg(*laserCloudIn, *laserCloud);
 
-    if (true) {
+    if (flipRegisteredScan) {
       int laserCloudSize = laserCloud->points.size();
       for (int i = 0; i < laserCloudSize; i++) {
         float temp = laserCloud->points[i].x;

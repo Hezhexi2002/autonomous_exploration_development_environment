@@ -5,6 +5,7 @@
 #include <chrono>
 #include <iostream>
 #include "rclcpp/rclcpp.hpp"
+#include "rclcpp/parameter_events_filter.hpp"
 #include "rclcpp/time.hpp"
 #include "rclcpp/clock.hpp"
 #include "builtin_interfaces/msg/time.hpp"
@@ -43,6 +44,7 @@ const double PI = 3.1415926;
 
 #define PLOTPATHSET 1
 
+string robot_id;
 string pathFolder;
 double vehicleLength = 0.6;
 double vehicleWidth = 0.6;
@@ -502,6 +504,7 @@ int main(int argc, char** argv)
   rclcpp::init(argc, argv);
   nh = rclcpp::Node::make_shared("localPlanner");
 
+  nh->declare_parameter<std::string>("robot_id", robot_id);
   nh->declare_parameter<std::string>("pathFolder", pathFolder);
   nh->declare_parameter<double>("vehicleLength", vehicleLength);
   nh->declare_parameter<double>("vehicleWidth", vehicleWidth);
@@ -542,6 +545,7 @@ int main(int argc, char** argv)
   nh->declare_parameter<double>("goalX", goalX);
   nh->declare_parameter<double>("goalY", goalY);
 
+  nh->get_parameter("robot_id", robot_id);
   nh->get_parameter("pathFolder", pathFolder);
   nh->get_parameter("vehicleLength", vehicleLength);
   nh->get_parameter("vehicleWidth", vehicleWidth);
@@ -582,15 +586,15 @@ int main(int argc, char** argv)
   nh->get_parameter("goalX", goalX);
   nh->get_parameter("goalY", goalY);
 
-  auto subOdometry = nh->create_subscription<nav_msgs::msg::Odometry>("/state_estimation", 5, odometryHandler);
+  auto subOdometry = nh->create_subscription<nav_msgs::msg::Odometry>(robot_id + "/state_estimation", 5, odometryHandler);
 
-  auto subLaserCloud = nh->create_subscription<sensor_msgs::msg::PointCloud2>("/registered_scan", 5, laserCloudHandler);
+  auto subLaserCloud = nh->create_subscription<sensor_msgs::msg::PointCloud2>(robot_id + "/registered_scan", 5, laserCloudHandler);
 
-  auto subTerrainCloud = nh->create_subscription<sensor_msgs::msg::PointCloud2>("/terrain_map", 5, terrainCloudHandler);
+  auto subTerrainCloud = nh->create_subscription<sensor_msgs::msg::PointCloud2>(robot_id + "/terrain_map", 5, terrainCloudHandler);
 
   auto subJoystick = nh->create_subscription<sensor_msgs::msg::Joy>("/joy", 5, joystickHandler);
 
-  auto subGoal = nh->create_subscription<geometry_msgs::msg::PointStamped> ("/way_point", 5, goalHandler);
+  auto subGoal = nh->create_subscription<geometry_msgs::msg::PointStamped> (robot_id + "/way_point", 5, goalHandler);
 
   auto subSpeed = nh->create_subscription<std_msgs::msg::Float32>("/speed", 5, speedHandler);
 

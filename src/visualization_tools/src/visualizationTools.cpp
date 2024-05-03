@@ -35,6 +35,7 @@ using namespace std;
 
 const double PI = 3.1415926;
 
+string robot_id;
 string metricFile;
 string trajFile;
 string mapFile;
@@ -222,6 +223,7 @@ int main(int argc, char** argv)
   rclcpp::init(argc, argv);
   auto nh = rclcpp::Node::make_shared("visualizationTools");
 
+  nh->declare_parameter<std::string>("robot_id", "");
   nh->declare_parameter<std::string>("metricFile", metricFile);
   nh->declare_parameter<std::string>("trajFile", trajFile);
   nh->declare_parameter<std::string>("mapFile", mapFile);
@@ -233,6 +235,7 @@ int main(int argc, char** argv)
   nh->declare_parameter<int>("overallMapDisplayInterval", overallMapDisplayInterval);
   nh->declare_parameter<int>("exploredAreaDisplayInterval", exploredAreaDisplayInterval);
 
+  nh->get_parameter("robot_id", robot_id);
   nh->get_parameter("metricFile", metricFile);
   nh->get_parameter("trajFile", trajFile);
   nh->get_parameter("mapFile", mapFile);
@@ -248,23 +251,23 @@ int main(int argc, char** argv)
   metricFile.replace(metricFile.find("/install/"), 8, "/src");
   trajFile.replace(trajFile.find("/install/"), 8, "/src");
 
-  auto subOdometry = nh->create_subscription<nav_msgs::msg::Odometry>("/state_estimation", 5, odometryHandler);
+  auto subOdometry = nh->create_subscription<nav_msgs::msg::Odometry>(robot_id + "/state_estimation", 5, odometryHandler);
 
-  auto subLaserCloud = nh->create_subscription<sensor_msgs::msg::PointCloud2>("/registered_scan", 5, laserCloudHandler);
+  auto subLaserCloud = nh->create_subscription<sensor_msgs::msg::PointCloud2>(robot_id + "/registered_scan", 5, laserCloudHandler);
 
-  auto subRuntime = nh->create_subscription<std_msgs::msg::Float32>("/runtime", 5, runtimeHandler);
+  auto subRuntime = nh->create_subscription<std_msgs::msg::Float32>(robot_id + "/runtime", 5, runtimeHandler);
 
-  auto pubOverallMap = nh->create_publisher<sensor_msgs::msg::PointCloud2>("/overall_map", 5);
+  auto pubOverallMap = nh->create_publisher<sensor_msgs::msg::PointCloud2>(robot_id + "/overall_map", 5);
 
-  pubExploredAreaPtr = nh->create_publisher<sensor_msgs::msg::PointCloud2>("/explored_areas", 5);
+  pubExploredAreaPtr = nh->create_publisher<sensor_msgs::msg::PointCloud2>(robot_id + "/explored_areas", 5);
 
-  pubTrajectoryPtr = nh->create_publisher<sensor_msgs::msg::PointCloud2>("/trajectory", 5);
+  pubTrajectoryPtr = nh->create_publisher<sensor_msgs::msg::PointCloud2>(robot_id + "/trajectory", 5);
   
-  pubExploredVolumePtr = nh->create_publisher<std_msgs::msg::Float32>("/explored_volume", 5);
+  pubExploredVolumePtr = nh->create_publisher<std_msgs::msg::Float32>(robot_id + "/explored_volume", 5);
 
-  pubTravelingDisPtr = nh->create_publisher<std_msgs::msg::Float32>("/traveling_distance", 5);
+  pubTravelingDisPtr = nh->create_publisher<std_msgs::msg::Float32>(robot_id + "/traveling_distance", 5);
 
-  pubTimeDurationPtr = nh->create_publisher<std_msgs::msg::Float32>("/time_duration", 5);
+  pubTimeDurationPtr = nh->create_publisher<std_msgs::msg::Float32>(robot_id + "/time_duration", 5);
 
   overallMapDwzFilter.setLeafSize(overallMapVoxelSize, overallMapVoxelSize, overallMapVoxelSize);
   exploredAreaDwzFilter.setLeafSize(exploredAreaVoxelSize, exploredAreaVoxelSize, exploredAreaVoxelSize);

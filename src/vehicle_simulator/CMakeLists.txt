@@ -52,8 +52,6 @@ install(TARGETS
 install(
   DIRECTORY
   launch
-  log
-  mesh
   rviz
   urdf
   world

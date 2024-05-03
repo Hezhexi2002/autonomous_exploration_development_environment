@@ -47,6 +47,7 @@ private Q_SLOTS:
   void updateTopic();
 
 private:
+  std::string robot_id = "robot_0";
   float vehicle_z;
   rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr sub_;
   rclcpp::Publisher<geometry_msgs::msg::PointStamped>::SharedPtr pub_;

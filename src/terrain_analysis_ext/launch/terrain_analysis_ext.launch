@@ -1,8 +1,9 @@
 <launch>
-
+  <arg name="robot_id" default=""/>
   <arg name="checkTerrainConn" default="false"/>
 
   <node pkg="terrain_analysis_ext" exec="terrainAnalysisExt" name="terrainAnalysisExt" output="screen">
+    <param name="robot_id" value="$(var robot_id)" />
     <param name="scanVoxelSize" value="0.1" />
     <param name="decayTime" value="10.0" />
     <param name="noDecayDis" value="0.0" />

@@ -35,6 +35,7 @@ using namespace std;
 
 const double PI = 3.1415926;
 
+std::string robot_id;
 double scanVoxelSize = 0.1;
 double decayTime = 10.0;
 double noDecayDis = 0;
@@ -178,6 +179,7 @@ int main(int argc, char** argv)
   rclcpp::init(argc, argv);
   auto nh = rclcpp::Node::make_shared("terrainAnalysisExt");
 
+  nh->declare_parameter<std::string>("robot_id", robot_id);
   nh->declare_parameter<double>("scanVoxelSize", scanVoxelSize);
   nh->declare_parameter<double>("decayTime", decayTime);
   nh->declare_parameter<double>("noDecayDis", noDecayDis);
@@ -196,6 +198,7 @@ int main(int argc, char** argv)
   nh->declare_parameter<double>("ceilingFilteringThre", ceilingFilteringThre);
   nh->declare_parameter<double>("localTerrainMapRadius", localTerrainMapRadius);
 
+  nh->get_parameter("robot_id", robot_id);
   nh->get_parameter("scanVoxelSize", scanVoxelSize);
   nh->get_parameter("decayTime", decayTime);
   nh->get_parameter("noDecayDis", noDecayDis);
@@ -214,17 +217,17 @@ int main(int argc, char** argv)
   nh->get_parameter("ceilingFilteringThre", ceilingFilteringThre);
   nh->get_parameter("localTerrainMapRadius", localTerrainMapRadius);
 
-  auto subOdometry = nh->create_subscription<nav_msgs::msg::Odometry>("/state_estimation", 5, odometryHandler);
+  auto subOdometry = nh->create_subscription<nav_msgs::msg::Odometry>(robot_id + "/state_estimation", 5, odometryHandler);
 
-  auto subLaserCloud = nh->create_subscription<sensor_msgs::msg::PointCloud2>("/registered_scan", 5, laserCloudHandler);
+  auto subLaserCloud = nh->create_subscription<sensor_msgs::msg::PointCloud2>(robot_id + "/registered_scan", 5, laserCloudHandler);
 
   auto subJoystick = nh->create_subscription<sensor_msgs::msg::Joy>("/joy", 5, joystickHandler);
 
   auto subClearing = nh->create_subscription<std_msgs::msg::Float32>("/cloud_clearing", 5, clearingHandler);
 
-  auto subTerrainCloudLocal = nh->create_subscription<sensor_msgs::msg::PointCloud2>("/terrain_map", 2, terrainCloudLocalHandler);
+  auto subTerrainCloudLocal = nh->create_subscription<sensor_msgs::msg::PointCloud2>(robot_id + "/terrain_map", 2, terrainCloudLocalHandler);
 
-  auto pubTerrainCloud = nh->create_publisher<sensor_msgs::msg::PointCloud2>("/terrain_map_ext", 2);
+  auto pubTerrainCloud = nh->create_publisher<sensor_msgs::msg::PointCloud2>(robot_id + "/terrain_map_ext", 2);
 
   for (int i = 0; i < terrainVoxelNum; i++)
   {

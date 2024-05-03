@@ -47,6 +47,7 @@ using namespace std;
 
 const double PI = 3.1415926;
 
+std::string robot_id;
 bool use_gazebo_time = false;
 double cameraOffsetZ = 0;
 double sensorOffsetX = 0;
@@ -311,6 +312,7 @@ int main(int argc, char** argv)
   rclcpp::init(argc, argv);
   auto nh = rclcpp::Node::make_shared("vehicleSimulator");
 
+  nh->declare_parameter<std::string>("robot_id", robot_id);
   nh->declare_parameter<bool>("use_gazebo_time", use_gazebo_time);
   nh->declare_parameter<double>("cameraOffsetZ", cameraOffsetZ);
   nh->declare_parameter<double>("sensorOffsetX", sensorOffsetX);
@@ -332,6 +334,7 @@ int main(int argc, char** argv)
   nh->declare_parameter<double>("InclFittingThre", InclFittingThre);
   nh->declare_parameter<double>("maxIncl", maxIncl);
 
+  nh->get_parameter("robot_id", robot_id);
   nh->get_parameter("use_gazebo_time", use_gazebo_time);
   nh->get_parameter("cameraOffsetZ", cameraOffsetZ);
   nh->get_parameter("sensorOffsetX", sensorOffsetX);
@@ -355,11 +358,11 @@ int main(int argc, char** argv)
 
   auto subScan = nh->create_subscription<sensor_msgs::msg::PointCloud2>("/velodyne_points", 2, scanHandler);
 
-  auto subTerrainCloud = nh->create_subscription<sensor_msgs::msg::PointCloud2>("/terrain_map", 2, terrainCloudHandler);
+  auto subTerrainCloud = nh->create_subscription<sensor_msgs::msg::PointCloud2>(robot_id + "/terrain_map", 2, terrainCloudHandler);
 
-  auto subSpeed = nh->create_subscription<geometry_msgs::msg::TwistStamped>("/cmd_vel", 5, speedHandler);
+  auto subSpeed = nh->create_subscription<geometry_msgs::msg::TwistStamped>("/cmd_vel_stamped", 5, speedHandler);
 
-  auto pubVehicleOdom = nh->create_publisher<nav_msgs::msg::Odometry>("/state_estimation", 5);
+  auto pubVehicleOdom = nh->create_publisher<nav_msgs::msg::Odometry>(robot_id + "/state_estimation", 5);
   nav_msgs::msg::Odometry odomData;
   odomData.header.frame_id = "map";
   odomData.child_frame_id = "sensor";
@@ -379,7 +382,7 @@ int main(int argc, char** argv)
   rclcpp::Client<gazebo_msgs::srv::SetEntityState>::SharedPtr client = nh->create_client<gazebo_msgs::srv::SetEntityState>("/set_entity_state");
   auto request  = std::make_shared<gazebo_msgs::srv::SetEntityState::Request>();
 
-  pubScanPointer = nh->create_publisher<sensor_msgs::msg::PointCloud2>("/registered_scan", 2);
+  pubScanPointer = nh->create_publisher<sensor_msgs::msg::PointCloud2>(robot_id + "/registered_scan", 2);
 
   terrainDwzFilter.setLeafSize(terrainVoxelSize, terrainVoxelSize, terrainVoxelSize);
 
