@@ -1,0 +1,6 @@
+<launch>
+  <arg name="namespace" default="" />
+
+  <node pkg="sensor_scan_generation" exec="sensorScanGeneration" name="sensorScanGeneration" output="screen" namespace="$(var namespace)">
+  </node>
+</launch>
