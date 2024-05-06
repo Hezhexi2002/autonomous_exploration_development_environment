@@ -311,7 +311,6 @@ int main(int argc, char** argv)
   rclcpp::init(argc, argv);
   auto nh = rclcpp::Node::make_shared("vehicleSimulator");
 
-  nh->declare_parameter<std::string>("robot_id", robot_id);
   nh->declare_parameter<bool>("use_gazebo_time", use_gazebo_time);
   nh->declare_parameter<double>("cameraOffsetZ", cameraOffsetZ);
   nh->declare_parameter<double>("sensorOffsetX", sensorOffsetX);
@@ -333,7 +332,6 @@ int main(int argc, char** argv)
   nh->declare_parameter<double>("InclFittingThre", InclFittingThre);
   nh->declare_parameter<double>("maxIncl", maxIncl);
 
-  nh->get_parameter("robot_id", robot_id);
   nh->get_parameter("use_gazebo_time", use_gazebo_time);
   nh->get_parameter("cameraOffsetZ", cameraOffsetZ);
   nh->get_parameter("sensorOffsetX", sensorOffsetX);

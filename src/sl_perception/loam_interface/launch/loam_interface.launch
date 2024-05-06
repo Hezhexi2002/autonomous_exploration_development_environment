@@ -1,8 +1,8 @@
 <launch>
   <arg name="namespace" default="" />
   <node pkg="loam_interface" exec="loamInterface" name="loamInterface" output="screen" namespace="$(var namespace)">
-    <param name="stateEstimationTopic" value="/Odometry" />
-    <param name="registeredScanTopic" value="/cloud_registered" />
+    <param name="stateEstimationTopic" value="Odometry" />
+    <param name="registeredScanTopic" value="cloud_registered" />
     <param name="flipStateEstimation" value="false" />
     <param name="flipRegisteredScan" value="false" />
     <param name="sendTF" value="true" />

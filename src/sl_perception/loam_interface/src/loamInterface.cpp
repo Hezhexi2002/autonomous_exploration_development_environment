@@ -22,6 +22,7 @@
 #include <pcl/point_types.h>
 #include <pcl/filters/voxel_grid.h>
 #include <pcl/kdtree/kdtree_flann.h>
+#include <type_traits>
 
 using namespace std;
 
@@ -118,7 +119,7 @@ private:
     odomData.child_frame_id = "sensor";
     pubOdometry->publish(odomData);
 
-    // publish tf messages
+    // // publish tf messages
     odomTrans.frame_id_ = "map";
     odomTrans.setRotation(tf2::Quaternion(geoQuat.x, geoQuat.y, geoQuat.z, geoQuat.w));
     odomTrans.setOrigin(tf2::Vector3(odomData.pose.pose.position.x, odomData.pose.pose.position.y, odomData.pose.pose.position.z));

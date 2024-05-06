@@ -114,7 +114,10 @@ def generate_launch_description():
   start_livox_driver = IncludeLaunchDescription(
       PythonLaunchDescriptionSource(os.path.join(
           get_package_share_directory('livox_ros_driver2'), 'launch', 'msg_MID360_launch.py'
-      ))
+      )),
+    launch_arguments={
+      'namespace': robot_id,
+    }.items()
   )
 
   start_fast_lio = IncludeLaunchDescription(
@@ -152,13 +155,13 @@ def generate_launch_description():
   # ld.add_action(start_local_planner)
   ld.add_action(start_livox_driver)  # 添加雷达驱动启动
   ld.add_action(start_fast_lio)  # 添加 FastLIO 启动
-  ld.add_action(start_sl_navigation)
+  ld.add_action(start_loam_interface)
+  ld.add_action(start_sensor_scan_generation)
   ld.add_action(start_terrain_analysis)
   ld.add_action(start_terrain_analysis_ext)
   ld.add_action(start_pointcloud_to_laserscan)
-  ld.add_action(start_sensor_scan_generation)
+  ld.add_action(start_sl_navigation)
   ld.add_action(start_visualization_tools)
-  ld.add_action(start_loam_interface)
   # ld.add_action(twist_unstamper)
   ld.add_action(delayed_start_rviz)
 

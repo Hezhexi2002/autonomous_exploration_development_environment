@@ -18,8 +18,8 @@ def generate_launch_description():
         namespace=namespace,
         output='screen',
         parameters=[{
-            'stateEstimationTopic': '/Odometry',
-            'registeredScanTopic': '/cloud_registered',
+            'stateEstimationTopic': 'Odometry',
+            'registeredScanTopic': 'cloud_registered',
             'flipStateEstimation': False,
             'flipRegisteredScan': False,
             'sendTF': True,

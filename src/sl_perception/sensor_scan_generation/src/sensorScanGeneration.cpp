@@ -104,8 +104,6 @@ int main(int argc, char** argv)
   rclcpp::init(argc, argv);
   auto nh = rclcpp::Node::make_shared("sensor_scan");
 
-  nh->declare_parameter<std::string>("robot_id", robot_id);
-  nh->get_parameter("robot_id", robot_id);
   
   // ROS message filters
   message_filters::Subscriber<nav_msgs::msg::Odometry> subOdometry;
