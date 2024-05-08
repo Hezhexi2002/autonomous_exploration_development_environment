@@ -1,0 +1,3 @@
+[submodule "src/sl_mapping/rtabmap_livox"]
+	path = src/sl_mapping/rtabmap_livox
+	url = https://github.com/snt-spacer/rtabmap_livox.git
