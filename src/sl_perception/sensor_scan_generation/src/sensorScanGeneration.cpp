@@ -27,7 +27,6 @@ using namespace std;
 pcl::PointCloud<pcl::PointXYZ>::Ptr laserCloudIn(new pcl::PointCloud<pcl::PointXYZ>());
 pcl::PointCloud<pcl::PointXYZ>::Ptr laserCLoudInSensorFrame(new pcl::PointCloud<pcl::PointXYZ>());
 
-std::string robot_id;
 double robotX = 0;
 double robotY = 0;
 double robotZ = 0;

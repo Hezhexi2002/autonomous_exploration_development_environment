@@ -19,10 +19,9 @@ def generate_launch_description():
             namespace=namespace,
             remappings=[
                 ('cloud_in', 'terrain_map'),
-                ('scan', 'scan')
             ],
             parameters=[{
-                'target_frame': 'sensor',
+                'target_frame': 'map',
                 'transform_tolerance': 0.01,
                 'min_height': -0.2,
                 'max_height': 0.15,

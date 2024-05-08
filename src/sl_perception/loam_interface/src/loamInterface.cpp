@@ -39,7 +39,6 @@ public:
   : Node("loamInterface")
   {
     // Declare Parameters
-    this->declare_parameter<std::string>("robot_id", robot_id);
     this->declare_parameter<std::string>("stateEstimationTopic", stateEstimationTopic);
     this->declare_parameter<std::string>("registeredScanTopic", registeredScanTopic);
     this->declare_parameter<bool>("flipStateEstimation", flipStateEstimation);
@@ -48,7 +47,6 @@ public:
     this->declare_parameter<bool>("reverseTF", reverseTF);
 
     // Initialize Parameters
-    this->get_parameter("robot_id", robot_id);
     this->get_parameter("stateEstimationTopic", stateEstimationTopic);
     this->get_parameter("registeredScanTopic", registeredScanTopic);
     this->get_parameter("flipStateEstimation", flipStateEstimation);
@@ -119,7 +117,7 @@ private:
     odomData.child_frame_id = "sensor";
     pubOdometry->publish(odomData);
 
-    // // publish tf messages
+    // publish tf messages
     odomTrans.frame_id_ = "map";
     odomTrans.setRotation(tf2::Quaternion(geoQuat.x, geoQuat.y, geoQuat.z, geoQuat.w));
     odomTrans.setOrigin(tf2::Vector3(odomData.pose.pose.position.x, odomData.pose.pose.position.y, odomData.pose.pose.position.z));

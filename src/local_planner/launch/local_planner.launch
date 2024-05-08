@@ -1,5 +1,5 @@
 <launch>
-  <arg name="robot_id" default=""/>
+  <arg name="namespace" default="" />
   <arg name="sensorOffsetX" default="0.15"/>
   <arg name="sensorOffsetY" default="0.0"/>
   <arg name="cameraOffsetZ" default="0.0"/>
@@ -11,8 +11,7 @@
   <arg name="goalX" default="0.0"/>
   <arg name="goalY" default="0.0"/>
 
-  <node pkg="local_planner" exec="localPlanner" name="localPlanner" output="screen">
-    <param name="robot_id" value="$(var robot_id)" />
+  <node pkg="local_planner" exec="localPlanner" name="localPlanner" output="screen" namespace="$(var namespace)">
     <param name="pathFolder" value="$(find-pkg-share local_planner)/paths" />
     <param name="vehicleLength" value="0.2" />
     <param name="vehicleWidth" value="0.2" />
@@ -54,7 +53,7 @@
     <param name="goalY" value="$(var goalY)" />
   </node>
 
-  <node pkg="local_planner" exec="pathFollower" name="pathFollower" output="screen">
+  <node pkg="local_planner" exec="pathFollower" name="pathFollower" output="screen" namespace="$(var namespace)">
     <param name="sensorOffsetX" value="$(var sensorOffsetX)" />
     <param name="sensorOffsetY" value="$(var sensorOffsetY)" />
     <param name="pubSkipNum" value="1" />

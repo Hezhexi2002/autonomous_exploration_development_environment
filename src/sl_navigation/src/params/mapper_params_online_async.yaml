@@ -10,12 +10,12 @@ slam_toolbox:
     ceres_loss_function: None
 
     # ROS Parameters
-    odom_frame: odom 
+    odom_frame: map 
     map_frame: map
     # base_frame: livox_frame
     # base_frame: base_link 
-    base_frame: base_footprint 
-    scan_topic: /scan
+    base_frame: vehicle 
+    scan_topic: /robot_0/scan
     mode: mapping #localization
 
     # if you'd like to immediately start continuing a map at a given pose

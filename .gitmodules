@@ -1,3 +1,6 @@
 [submodule "src/sl_mapping/rtabmap_livox"]
 	path = src/sl_mapping/rtabmap_livox
 	url = https://github.com/snt-spacer/rtabmap_livox.git
+[submodule "src/sl_localization/FAST_LIO"]
+	path = src/sl_localization/FAST_LIO
+	url = https://github.com/hku-mars/FAST_LIO.git
